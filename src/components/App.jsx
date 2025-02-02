@@ -61,7 +61,7 @@ function App() {
     e.preventDefault();
     setLoading(true);
     const dynamicData = await generateDynamicRoadmap(topic, experience);
-
+    
     // Build React Flow nodes from all enhanced nodes.
     const rfNodes = dynamicData.nodes.map(node => ({
       id: node.id,
@@ -76,7 +76,7 @@ function App() {
         textAlign: 'center'
       }
     }));
-
+    
     const rfEdges = dynamicData.edges;
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(rfNodes, rfEdges, 'TB');
     setNodes(layoutedNodes);
@@ -129,23 +129,23 @@ function App() {
         <form onSubmit={handleSubmit} className="input-form">
           <div className="form-group">
             <label>Topic:</label>
-            <input
-              type="text"
-              value={topic}
-              onChange={e => setTopic(e.target.value)}
-              placeholder="Enter topic here"
+            <input 
+              type="text" 
+              value={topic} 
+              onChange={e => setTopic(e.target.value)} 
+              placeholder="Enter topic here" 
               required
             />
           </div>
           <div className="form-group">
             <label>Experience Level:</label>
             <select value={experience} onChange={e => setExperience(e.target.value)}>
-              <option value="Heard of it">Just Heard of it</option>
+              <option value="Heard of it">Heard of it</option>
               <option value="Know about it">Know about it</option>
               <option value="Worked with it">Worked with it</option>
             </select>
           </div>
-          <button type="submit" className="submit-btn">Generate an Awesome Learning Plan!</button>
+          <button type="submit" className="submit-btn">Generate Roadmap</button>
         </form>
         {loading && (
           <div className="loading-container">
