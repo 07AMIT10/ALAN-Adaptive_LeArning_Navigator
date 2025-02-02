@@ -2,8 +2,8 @@
 export async function getRelevantVideos(topic) {
     try {
         const response = await fetch(
-            // `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${encodeURIComponent(topic)}&type=video&key=${process.env.REACT_APP_YOUTUBE_KEY}`
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${encodeURIComponent(topic)}&type=video&key=AIzaSyAz3C-Mxg93IRCLL-B1VGAkqbuGFF5kTq8`
+            `https://www.googleapis.com/youtube/v3//search?part=snippet&maxResults=3&q=${encodeURIComponent(topic)}&type=video&key=${process.env.REACT_APP_YOUTUBE_KEY}`
+            
         );
         const data = await response.json();
         console.log("YouTube API response:", data);
