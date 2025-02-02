@@ -2,8 +2,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the Gemini client using your API key.
-// const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_KEY);
-const genAI = new GoogleGenerativeAI("AIzaSyDcsgLpV3XaQqwtR1mVPqebryWq0LC1d8I");
+const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_KEY);
+
 /**
  * Generates a roadmap node using Gemini.
  * The prompt asks for a brief overview, three child sub-topics, and key learning objectives.
