@@ -2,29 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Adaptive Learning Navigator - an AI-powered roadmap generator."
+      content="Adaptive Learning Navigator - AI-powered roadmap generator"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
     <title>Adaptive Learning Navigator</title>
+    <!-- Updated asset paths without %PUBLIC_URL% -->
+    <script defer="defer" src="/static/js/main.b48b8c9c.js"></script>
+    <link href="/static/css/main.28fcb37e.css" rel="stylesheet">
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <strong>You need to enable JavaScript to run this application.</strong>
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <div> tag.
-    -->
+    <!-- Production error handling (optional but recommended) -->
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        console.error('Application Error:', { message, source, lineno, colno, error });
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = `
+            <div style="padding: 2rem; text-align: center;">
+              <h1 style="color: #dc3545;">Application Error</h1>
+              <p>Please refresh the page or try again later.</p>
+              <p>${message}</p>
+            </div>
+          `;
+        }
+      };
+    </script>
   </body>
 </html>
