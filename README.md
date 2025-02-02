@@ -1,9 +1,9 @@
 
-# AI-Driven Roadmap Generator
+# Adaptive Learning Navigator - ALAN
 
 ## Overview
 
-The AI-Driven Roadmap Generator is an innovative, AI-powered platform designed to create personalized learning roadmaps for technical subjects. By harnessing the power of Generative AI through Gemini 2.0 Flash, and enriching content with resources from YouTube and Google Search, this tool delivers a dynamic and engaging learning experience. The roadmap is presented as an interactive graph using React Flow, allowing users to navigate and delve into learning modules at their own pace.
+ALAN is an innovative, AI-powered platform designed to create personalized learning Plans for technical subjects. By harnessing the power of Generative AI, and enriching content with resources from YouTube and Google Search, this tool delivers a dynamic and engaging learning experience. The roadmap is presented as an interactive graph using React Flow, allowing users to navigate and delve into learning modules at their own pace.
 
 ## Table of Contents
 
