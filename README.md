@@ -112,22 +112,22 @@ ALAN's architecture is thoughtfully designed with a clear separation of concerns
 
 ```mermaid
 flowchart TD
-    %% Nodes
-    A[User Input Form<br/>(React Frontend)]:::frontend
-    B[React Flow UI<br/>(Interactive Roadmap)]:::frontend
-    C[Gemini 2.0 Flash API]:::ai
-    D[AI-Generated Roadmap Data]:::ai
-    E[Enhancement Layer<br/>(Data Enrichment)]:::backend
-    F1[YouTube Data API Proxy]:::backend
-    F2[Google Custom Search API Proxy]:::backend
-    G[Enhanced Video Data]:::backend
-    H[Enhanced Article Data]:::backend
-    I[Dynamic Roadmap Generator<br/>(Utility Layer)]:::backend
-    J[Interactive Module Details<br/>(Modal)]:::frontend
+    %% Define nodes with colors
+    A["User Input (React Frontend)"]:::frontend 
+    B["React Flow UI (Interactive Roadmap)"]:::frontend 
+    C["Generative AI  Model"]:::ai 
+    D["Roadmap Data"]:::ai 
+    E["Data Enrichment"]:::backend 
+    F1["Fetch RELEVENT Youtube Links"]:::backend 
+    F2["Fetch RELEVENT Article Links"]:::backend 
+    G["Enhanced Video Data"]:::backend 
+    H["Enhanced Article Data"]:::backend 
+    I["Dynamic Learning Plan Generator (Utility Layer)"]:::backend 
+    J["Interactive Module Details (Modal)"]:::frontend 
 
-    %% Connections
+    %% Connect nodes
     A --> B
-    B -->|Request Roadmap| C
+    B -->|Sends request for roadmap| C
     C --> D
     D --> I
     I --> B
@@ -137,12 +137,13 @@ flowchart TD
     F1 --> G
     F2 --> H
     G & H --> I
-    B -->|Node Click| J
+    B -->|Click on a node| J
 
     %% Style definitions
     classDef frontend fill:#B3E5FC,stroke:#0277BD,stroke-width:2px;
     classDef ai fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px;
     classDef backend fill:#FFECB3,stroke:#F57C00,stroke-width:2px;
+
 ```
 
 ### Component Details
