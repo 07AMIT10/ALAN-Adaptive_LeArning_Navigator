@@ -124,7 +124,7 @@ function App() {
   if (!submitted) {
     return (
       <div className="app-container form-container">
-        <h1>Welcome Amit!</h1>
+        <h1>Welcome Learner!</h1>
         <h2>What shall we learn today?</h2>
         <form onSubmit={handleSubmit} className="input-form">
           <div className="form-group">
@@ -140,12 +140,12 @@ function App() {
           <div className="form-group">
             <label>Experience Level:</label>
             <select value={experience} onChange={e => setExperience(e.target.value)}>
-              <option value="Heard of it">Heard of it</option>
+              <option value="Heard of it">Just Heard of it</option>
               <option value="Know about it">Know about it</option>
               <option value="Worked with it">Worked with it</option>
             </select>
           </div>
-          <button type="submit" className="submit-btn">Generate Roadmap</button>
+          <button type="submit" className="submit-btn">Generate Learning Plan</button>
         </form>
         {loading && (
           <div className="loading-container">
