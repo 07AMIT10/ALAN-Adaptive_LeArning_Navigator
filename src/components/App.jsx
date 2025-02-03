@@ -150,7 +150,7 @@ function App() {
         {loading && (
           <div className="loading-container">
             <div className="spinner"></div>
-            <p>Building your Personalized Learning Plan...</p>
+            <p>Building your Personalized Learning Plan...(will take about 60 seconds)</p>
           </div>
         )}
       </div>
