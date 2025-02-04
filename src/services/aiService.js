@@ -9,7 +9,7 @@ const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_KEY);
  * The prompt asks for a brief overview, three child sub-topics, and key learning objectives.
  */
 export async function generateRoadmapNode(topic, experience) {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
 
     const prompt = `You are an expert curriculum designer specializing in creating learning roadmaps for technical topics. Your goal is to generate a JSON output that defines the structured learning path for a given topic. You will generate the core structure of the roadmap, focusing on the topic flow and descriptive content. Crucially, you will NOT include any suggestions for articles or videos. The \`articles\` and \`videos\` arrays in your JSON output MUST be empty. These will be populated from external services later.
 
