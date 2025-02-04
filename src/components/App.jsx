@@ -11,6 +11,7 @@ import dagre from 'dagre';
 import 'reactflow/dist/style.css';
 import { generateDynamicRoadmap } from '../utils/roadmapGenerator';
 import Modal from './Modal';
+import SavedPlans from './SavedPlans';
 import '../App.css';
 
 const nodeWidth = 200;
@@ -55,6 +56,17 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Saved roadmap (from localStorage)
+  const [savedPlans, setSavedPlans] = useState([]);
+
+  // Load saved plans on mount
+  React.useEffect(() => {
+    const plans = localStorage.getItem('savedRoadmaps');
+    if (plans) {
+      setSavedPlans(JSON.parse(plans));
+    }
+  }, []);
 
   // Handle form submission.
   const handleSubmit = async (e) => {
@@ -120,11 +132,20 @@ function App() {
     );
   };
 
+  // Save the current roadmap to localStorage.
+  const saveRoadmap = () => {
+    const roadmapData = { nodes, edges, topic, experience };
+    const updatedPlans = [...savedPlans, roadmapData];
+    localStorage.setItem('savedRoadmaps', JSON.stringify(updatedPlans));
+    setSavedPlans(updatedPlans);
+    alert("Roadmap saved successfully!");
+  };
+
   // If user has not yet submitted, show the enhanced input form.
   if (!submitted) {
     return (
       <div className="app-container form-container">
-        <h1>Welcome Learner!</h1>
+        <h1>Welcome Amit!</h1>
         <h2>What shall we learn today?</h2>
         <form onSubmit={handleSubmit} className="input-form">
           <div className="form-group">
@@ -140,19 +161,27 @@ function App() {
           <div className="form-group">
             <label>Experience Level:</label>
             <select value={experience} onChange={e => setExperience(e.target.value)}>
-              <option value="Heard of it">Just Heard of it</option>
+              <option value="Heard of it">Heard of it</option>
               <option value="Know about it">Know about it</option>
               <option value="Worked with it">Worked with it</option>
             </select>
           </div>
-          <button type="submit" className="submit-btn">Generate Learning Plan</button>
+          <button type="submit" className="submit-btn">Generate Roadmap</button>
         </form>
         {loading && (
           <div className="loading-container">
             <div className="spinner"></div>
-            <p>Building your Personalized Learning Plan...(will take about 60 seconds)</p>
+            <p>Building your Personalized Learning Plan...</p>
           </div>
         )}
+        <SavedPlans plans={savedPlans} onSelectPlan={(plan) => {
+          // Load selected plan into the React Flow state.
+          setNodes(plan.nodes);
+          setEdges(plan.edges);
+          setTopic(plan.topic);
+          setExperience(plan.experience);
+          setSubmitted(true);
+        }} />
       </div>
     );
   }
@@ -160,6 +189,12 @@ function App() {
   // Otherwise, render the roadmap using React Flow.
   return (
     <div style={{ height: '100vh' }}>
+      <header className="roadmap-header">
+        <h1>{topic}</h1>
+        <p>Experience Level: {experience}</p>
+        <button onClick={saveRoadmap} className="save-btn">Save Roadmap</button>
+        <button onClick={() => window.location.reload()} className="new-btn">Create New Roadmap</button>
+      </header>
       <ReactFlowProvider>
         <ReactFlow
           nodes={nodes}
