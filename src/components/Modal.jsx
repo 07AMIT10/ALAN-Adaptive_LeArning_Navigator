@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 
 const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit, onExtend }) => {
-  if (!isOpen || !node) return null;
-
-  const isLeaf = !node.children || node.children.length === 0;
+  // Always call hooks at the top level.
   const [extending, setExtending] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newOverview, setNewOverview] = useState('');
+
+  if (!isOpen || !node) return null;  // Early return is now after hooks
+
+  const isLeaf = !node.children || node.children.length === 0;
 
   const handleExtendSubmit = () => {
     if (!newTitle.trim() || !newOverview.trim()) {
