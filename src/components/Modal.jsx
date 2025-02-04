@@ -1,27 +1,15 @@
 // src/components/Modal.jsx
-import React, { useState } from 'react';
+import React from 'react';
 
-const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit, onExtend }) => {
-  // Always call hooks at the top level.
-  const [extending, setExtending] = useState(false);
-  const [newTitle, setNewTitle] = useState('');
-  const [newOverview, setNewOverview] = useState('');
-
-  if (!isOpen || !node) return null;  // Early return is now after hooks
+const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit }) => {
+  if (!isOpen || !node) return null;
 
   const isLeaf = !node.children || node.children.length === 0;
 
-  const handleExtendSubmit = () => {
-    if (!newTitle.trim() || !newOverview.trim()) {
-      alert("Please enter both title and overview for the new module.");
-      return;
-    }
-    // Call onExtend with parent id and new child data.
-    onExtend(node.id, { title: newTitle, overview: newOverview });
-    setExtending(false);
-    setNewTitle('');
-    setNewOverview('');
-    onClose();
+  const handleExtend = () => {
+    // You can customize this function to redirect the user to an extension page
+    // or open a prompt to add new sub-modules.
+    alert("Extend Learning Plan functionality coming soon!");
   };
 
   const modalStyles = {
@@ -130,9 +118,9 @@ const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit, onExtend 
           >
             Mark to Revisit
           </button>
-          {isLeaf && !extending && (
+          {isLeaf && (
             <button
-              onClick={() => setExtending(true)}
+              onClick={handleExtend}
               style={{
                 padding: '10px 20px',
                 backgroundColor: '#6a1b9a',
@@ -145,37 +133,6 @@ const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit, onExtend 
             >
               Extend Learning Plan
             </button>
-          )}
-          {extending && (
-            <div style={{ marginTop: '10px' }}>
-              <input
-                type="text"
-                value={newTitle}
-                onChange={e => setNewTitle(e.target.value)}
-                placeholder="New Module Title"
-                style={{ padding: '8px', marginRight: '5px' }}
-              />
-              <input
-                type="text"
-                value={newOverview}
-                onChange={e => setNewOverview(e.target.value)}
-                placeholder="New Module Overview"
-                style={{ padding: '8px', marginRight: '5px' }}
-              />
-              <button
-                onClick={handleExtendSubmit}
-                style={{
-                  padding: '8px 12px',
-                  backgroundColor: '#007bff',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
-              >
-                Add Module
-              </button>
-            </div>
           )}
           <button
             onClick={onClose}
