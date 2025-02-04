@@ -56,8 +56,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
-  // Saved roadmap (from localStorage)
   const [savedPlans, setSavedPlans] = useState([]);
 
   // Load saved plans on mount
@@ -68,13 +66,11 @@ function App() {
     }
   }, []);
 
-  // Handle form submission.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const dynamicData = await generateDynamicRoadmap(topic, experience);
     
-    // Build React Flow nodes from all enhanced nodes.
     const rfNodes = dynamicData.nodes.map(node => ({
       id: node.id,
       data: { label: node.title, details: node },
@@ -120,7 +116,6 @@ function App() {
     }
   };
 
-  // Updated revisit handler: set node background to dark orange.
   const markNodeRevisit = (nodeId) => {
     setNodes(nds =>
       nds.map(node => {
@@ -132,7 +127,66 @@ function App() {
     );
   };
 
-  // Save the current roadmap to localStorage.
+  // New function to handle extending a learning plan.
+  const handleExtend = (parentId, newChild) => {
+    // Generate a unique id for the new child (using timestamp)
+    const newId = parentId + '-' + Date.now();
+    // Create the new child node object.
+    const childNode = {
+      ...newChild,
+      id: newId,
+      articles: [],
+      videos: [],
+      communityNotes: [],
+      completed: false,
+      children: []
+    };
+
+    // Update parent node: add new child's id to parent's children array.
+    setNodes(nds => nds.map(node => {
+      if (node.id === parentId) {
+        // Also update the underlying details.
+        const details = { ...node.data.details };
+        details.children = details.children ? [...details.children, newId] : [newId];
+        node.data.details = details;
+      }
+      return node;
+    }));
+
+    // Add the new child node to React Flow state.
+    const newNode = {
+      id: newId,
+      data: { label: childNode.title, details: childNode },
+      position: { x: 0, y: 0 },  // Will be repositioned via layout
+      style: {
+        border: '2px solid #333',
+        padding: '10px',
+        borderRadius: '10px',
+        backgroundColor: '#ffffa5',
+        width: nodeWidth,
+        textAlign: 'center'
+      }
+    };
+    setNodes(nds => [...nds, newNode]);
+
+    // Add new edge from parent to the new child.
+    const newEdge = {
+      id: `e${parentId}-${newId}`,
+      source: parentId,
+      target: newId,
+      animated: false,
+      markerEnd: { type: 'arrowclosed', color: '#007bff' },
+      style: { stroke: '#007bff', strokeWidth: 2 }
+    };
+    setEdges(eds => [...eds, newEdge]);
+
+    // Re-run layout if desired (optional).
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements([...nodes, newNode], [...edges, newEdge], 'TB');
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+    alert("Learning plan extended successfully!");
+  };
+
   const saveRoadmap = () => {
     const roadmapData = { nodes, edges, topic, experience };
     const updatedPlans = [...savedPlans, roadmapData];
@@ -141,7 +195,6 @@ function App() {
     alert("Roadmap saved successfully!");
   };
 
-  // If user has not yet submitted, show the enhanced input form.
   if (!submitted) {
     return (
       <div className="app-container form-container">
@@ -175,7 +228,6 @@ function App() {
           </div>
         )}
         <SavedPlans plans={savedPlans} onSelectPlan={(plan) => {
-          // Load selected plan into the React Flow state.
           setNodes(plan.nodes);
           setEdges(plan.edges);
           setTopic(plan.topic);
@@ -186,14 +238,17 @@ function App() {
     );
   }
 
-  // Otherwise, render the roadmap using React Flow.
   return (
     <div style={{ height: '100vh' }}>
       <header className="roadmap-header">
-        <h1>{topic}</h1>
-        <p>Experience Level: {experience}</p>
-        <button onClick={saveRoadmap} className="save-btn">Save Roadmap</button>
-        <button onClick={() => window.location.reload()} className="new-btn">Create New Roadmap</button>
+        <div>
+          <h1>{topic}</h1>
+          <p>Experience Level: {experience}</p>
+        </div>
+        <div>
+          <button onClick={saveRoadmap} className="save-btn">Save Roadmap</button>
+          <button onClick={() => window.location.reload()} className="new-btn">Create New Roadmap</button>
+        </div>
       </header>
       <ReactFlowProvider>
         <ReactFlow
@@ -216,6 +271,7 @@ function App() {
           node={selectedNode}
           onMarkComplete={markNodeCompleted}
           onMarkRevisit={markNodeRevisit}
+          onExtend={handleExtend}  // Pass the extend callback to Modal
         />
       )}
     </div>
