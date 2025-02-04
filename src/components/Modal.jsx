@@ -1,15 +1,25 @@
 // src/components/Modal.jsx
-import React from 'react';
+import React, { useState } from 'react';
 
-const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit }) => {
+const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit, onExtend }) => {
   if (!isOpen || !node) return null;
 
   const isLeaf = !node.children || node.children.length === 0;
+  const [extending, setExtending] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [newOverview, setNewOverview] = useState('');
 
-  const handleExtend = () => {
-    // You can customize this function to redirect the user to an extension page
-    // or open a prompt to add new sub-modules.
-    alert("Extend Learning Plan functionality coming soon!");
+  const handleExtendSubmit = () => {
+    if (!newTitle.trim() || !newOverview.trim()) {
+      alert("Please enter both title and overview for the new module.");
+      return;
+    }
+    // Call onExtend with parent id and new child data.
+    onExtend(node.id, { title: newTitle, overview: newOverview });
+    setExtending(false);
+    setNewTitle('');
+    setNewOverview('');
+    onClose();
   };
 
   const modalStyles = {
@@ -118,9 +128,9 @@ const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit }) => {
           >
             Mark to Revisit
           </button>
-          {isLeaf && (
+          {isLeaf && !extending && (
             <button
-              onClick={handleExtend}
+              onClick={() => setExtending(true)}
               style={{
                 padding: '10px 20px',
                 backgroundColor: '#6a1b9a',
@@ -133,6 +143,37 @@ const Modal = ({ isOpen, onClose, node, onMarkComplete, onMarkRevisit }) => {
             >
               Extend Learning Plan
             </button>
+          )}
+          {extending && (
+            <div style={{ marginTop: '10px' }}>
+              <input
+                type="text"
+                value={newTitle}
+                onChange={e => setNewTitle(e.target.value)}
+                placeholder="New Module Title"
+                style={{ padding: '8px', marginRight: '5px' }}
+              />
+              <input
+                type="text"
+                value={newOverview}
+                onChange={e => setNewOverview(e.target.value)}
+                placeholder="New Module Overview"
+                style={{ padding: '8px', marginRight: '5px' }}
+              />
+              <button
+                onClick={handleExtendSubmit}
+                style={{
+                  padding: '8px 12px',
+                  backgroundColor: '#007bff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Add Module
+              </button>
+            </div>
           )}
           <button
             onClick={onClose}
