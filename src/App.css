@@ -91,6 +91,80 @@ body {
   animation: spin 1s linear infinite;
   margin-bottom: 10px;
 }
+/* Add to your existing src/App.css */
+
+.roadmap-header {
+  padding: 20px;
+  background-color: #0277bd;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.roadmap-header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.roadmap-header p {
+  margin: 0 20px;
+  font-size: 1em;
+}
+
+.save-btn, .new-btn {
+  padding: 10px 20px;
+  background-color: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.save-btn:hover, .new-btn:hover {
+  background-color: #1b5e20;
+}
+
+.saved-plans {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.saved-plans h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.saved-plans ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.saved-plans li {
+  margin-bottom: 5px;
+}
+
+.saved-plans button {
+  background-color: #f57c00;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.saved-plans button:hover {
+  background-color: #e65100;
+}
 
 @keyframes spin {
   to {
